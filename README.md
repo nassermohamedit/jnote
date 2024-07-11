@@ -1,0 +1,2 @@
+# JNote: Note-Taking Application
+
