@@ -4,6 +4,7 @@ import jakarta.annotation.security.RolesAllowed
 import jakarta.inject.Inject
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response.Status
 import nassermohamedit.jnote.dto.ModuleDto
 import nassermohamedit.jnote.dto.NoteDto
 import nassermohamedit.jnote.entity.Module
@@ -66,7 +67,7 @@ class ModuleResource @Inject constructor(private val moduleService: ModuleServic
     @RolesAllowed("user")
     fun addNote(@PathParam("id") id: Long, note: Note): RestResponse<NoteDto> {
         val addedNote = moduleService.addNote(id, note);
-        return RestResponse.created(URI.create("${API.NOTES_SCOPE}/${addedNote.id}"))
+        return RestResponse.ok(addedNote);
     }
 
     @GET
