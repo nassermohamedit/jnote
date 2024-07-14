@@ -10,15 +10,16 @@ import nassermohamedit.jnote.entity.User
 import nassermohamedit.jnote.exception.ForbiddenException
 import nassermohamedit.jnote.exception.NotFoundException
 import nassermohamedit.jnote.exception.DatabaseError
+import nassermohamedit.jnote.exception.ServerError
 import nassermohamedit.jnote.repository.UserRepository
 import org.eclipse.microprofile.jwt.JsonWebToken
 import java.time.LocalDateTime
 
 
 @RequestScoped
-class UserService @Inject constructor(private val userRepository: UserRepository, jwt: JsonWebToken) {
+class UserService @Inject constructor(private val userRepository: UserRepository, private val jwt: JsonWebToken) {
 
-    private val id = jwt.getClaim<String>("id").toLong()
+    private val id = jwt.getClaim<String>("id")?.toLong()
 
     fun findById(id: Long): nassermohamedit.jnote.dto.UserDto {
         val user = userRepository.findById(id) ?: throw NotFoundException()
@@ -63,6 +64,9 @@ class UserService @Inject constructor(private val userRepository: UserRepository
     }
 
     private fun checkIdentity(id: Long) {
+        if (this.id == null) {
+            throw ServerError()
+        }
         if (id != this.id) {
             throw ForbiddenException()
         }

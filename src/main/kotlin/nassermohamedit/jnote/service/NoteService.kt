@@ -16,7 +16,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken
 @RequestScoped
 class NoteService @Inject constructor(private val noteRepository: NoteRepository, jwt: JsonWebToken) {
 
-    private val authId = jwt.getClaim<String>("id").toLong()
+    private val authId = jwt.getClaim<String>("id")?.toLong()
 
     fun findNoteById(id: Long): NoteDto {
         val note = noteRepository.findById(id) ?: throw NotFoundException();

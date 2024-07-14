@@ -24,7 +24,7 @@ class ModuleService @Inject constructor(
     private val noteRepository: NoteRepository,
     jwt: JsonWebToken
 ) {
-    private val authId = jwt.getClaim<String>("id").toLong()
+    private val authId = jwt.getClaim<String>("id")?.toLong()
 
     @Transactional
     fun createModule(module: Module): Module {
@@ -50,6 +50,7 @@ class ModuleService @Inject constructor(
     }
 
     fun findAllModules(): List<ModuleDto> {
+        checkNotNull(authId)
         return moduleRepository.findByOwnerId(authId).map {
             module: Module ->  ModuleDto(
             module.id!!,
@@ -106,6 +107,7 @@ class ModuleService @Inject constructor(
     }
 
     private fun checkModuleOwnership(id: Long) {
+        checkNotNull(authId)
         if (id != authId)
             throw ForbiddenException()
     }
