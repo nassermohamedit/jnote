@@ -1,5 +1,6 @@
 package nassermohamedit.jnote.service
 
+import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.context.RequestScoped
 import jakarta.inject.Inject
 import jakarta.persistence.PersistenceException
@@ -21,16 +22,16 @@ class NoteService @Inject constructor(private val noteRepository: NoteRepository
     fun findNoteById(id: Long): NoteDto {
         val note = noteRepository.findById(id) ?: throw NotFoundException();
 
-        if (note.module!!.owner!!.id!! != authId) {
+        if (note.unit!!.module!!.owner!!.id!! != authId) {
             throw ForbiddenException()
         }
-        return NoteDto(note.id!!, note.content!!, note.module!!.id!!, note.creationTime!!)
+        return NoteDto(note.id!!, note.content!!, note.unit!!.id!!, note.creationTime!!)
     }
 
     @Transactional
     fun deleteById(id: Long) {
         val note = noteRepository.findById(id) ?: throw NotFoundException()
-        if (note.module!!.owner!!.id != authId) {
+        if (note.unit!!.module!!.id != authId) {
             throw ForbiddenException()
         }
         noteRepository.deleteById(id)
@@ -38,7 +39,7 @@ class NoteService @Inject constructor(private val noteRepository: NoteRepository
 
     fun updateNote(id: Long, update: Note): NoteDto {
         val note = noteRepository.findById(id) ?: throw NotFoundException()
-        if (note.module!!.owner!!.id!! != authId) {
+        if (note.unit!!.module!!.owner!!.id!! != authId) {
             throw ForbiddenException()
         }
         note.content = update.content
@@ -47,6 +48,6 @@ class NoteService @Inject constructor(private val noteRepository: NoteRepository
         } catch (e: PersistenceException) {
             throw DatabaseError()
         }
-        return NoteDto(note.id!!, note.content!!, note.module!!.id!!, note.creationTime!!)
+        return NoteDto(note.id!!, note.content!!, note.unit!!.id!!, note.creationTime!!)
     }
 }

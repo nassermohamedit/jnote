@@ -4,6 +4,7 @@ import io.quarkus.security.identity.SecurityIdentity
 import io.smallrye.jwt.build.Jwt
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import jakarta.resource.spi.ConfigProperty
 import nassermohamedit.jnote.dto.Login
 import nassermohamedit.jnote.repository.UserRepository
 import nassermohamedit.jnote.dto.Token
@@ -12,6 +13,7 @@ import nassermohamedit.jnote.dto.Token
 class AuthService @Inject constructor(
     private val userRepository: UserRepository
 ) {
+
 
     fun getJwtToken(login: Login): Token? {
         val credentials = userRepository.findCredentialsByUsername(login.username) ?: return null

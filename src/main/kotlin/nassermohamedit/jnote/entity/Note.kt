@@ -17,7 +17,7 @@ class Note {
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "module_id", nullable = false)
-    var module: Module? = null;
+    var unit: Unit? = null;
 
     @get:Column(name = "creation_time", nullable = false)
     var creationTime: LocalDateTime? = null

@@ -21,7 +21,7 @@ class ModuleRepository: PanacheRepository<Module> {
         return try {
             query.singleResult
         } catch (e: NoResultException) {
-            null;
+            null
         }
     }
 }
