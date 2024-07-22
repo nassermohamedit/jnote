@@ -31,7 +31,7 @@ class NoteService @Inject constructor(private val noteRepository: NoteRepository
     @Transactional
     fun deleteById(id: Long) {
         val note = noteRepository.findById(id) ?: throw NotFoundException()
-        if (note.unit!!.module!!.id != authId) {
+        if (note.unit!!.module!!.owner!!.id != authId) {
             throw ForbiddenException()
         }
         noteRepository.deleteById(id)
