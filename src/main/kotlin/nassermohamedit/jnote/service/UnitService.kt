@@ -54,7 +54,11 @@ class UnitService @Inject constructor(
         val note = Note()
         note.unit = unit
         note.content = newNote.content
-        note.creationTime = LocalDateTime.now()
+        val now = LocalDateTime.now()
+        note.creationTime = now
+        unit.lastUpdated = now
+        unit.module!!.lastUpdated = now
+
         try {
             noteRepository.persistAndFlush(note)
             return NoteDto(
