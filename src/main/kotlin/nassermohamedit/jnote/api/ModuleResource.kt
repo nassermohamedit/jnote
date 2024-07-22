@@ -13,7 +13,6 @@ import nassermohamedit.jnote.exception.NotFoundException
 import nassermohamedit.jnote.service.ModuleService
 import org.eclipse.microprofile.jwt.JsonWebToken
 import org.jboss.resteasy.reactive.RestResponse
-import java.net.URI
 
 
 @Path("/")
@@ -40,10 +39,10 @@ class ModuleResource @Inject constructor(private val moduleService: ModuleServic
 
     @POST
     @RolesAllowed("user")
-    fun createModule(module: Module, @Context jwt: JsonWebToken): RestResponse<Module> {
+    fun createModule(module: Module, @Context jwt: JsonWebToken): RestResponse<ModuleDto> {
         val authId = jwt.getClaim<String>("id").toLong()
         val created = moduleService.createModule(module, authId)
-        return RestResponse.created(URI.create("${API.MODULES_SCOPE}/${created.id}"))
+        return RestResponse.ok(created)
     }
 
     @PUT

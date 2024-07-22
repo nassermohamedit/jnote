@@ -28,7 +28,7 @@ class ModuleService @Inject constructor(
 ) {
 
     @Transactional
-    fun createModule(module: Module, authId: Long): Module {
+    fun createModule(module: Module, authId: Long): ModuleDto {
         val owner = User()
         owner.id = authId
         module.owner = owner
@@ -45,7 +45,14 @@ class ModuleService @Inject constructor(
         try {
             moduleRepository.persistAndFlush(module)
             unitRepository.persistAndFlush(defaultUnit)
-            return module;
+            return ModuleDto(
+                module.id,
+                module.name,
+                module.description,
+                module.owner!!.id,
+                module.lastUpdated,
+                module.creationTime
+            );
         } catch (e: PersistenceException) {
             throw DatabaseError()
         }
