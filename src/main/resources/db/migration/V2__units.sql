@@ -39,3 +39,4 @@ ALTER TABLE units
     ALTER COLUMN self SET NOT NULL;
 
 ALTER TABLE modules RENAME CONSTRAINT fk_module_owner_ TO fk_module_owner;
+ALTER TABLE notes RENAME COLUMN module_id TO unit_id;
