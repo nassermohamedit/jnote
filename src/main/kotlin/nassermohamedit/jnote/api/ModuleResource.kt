@@ -15,7 +15,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken
 import org.jboss.resteasy.reactive.RestResponse
 
 
-@Path("/")
+@Path("/api")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 class ModuleResource @Inject constructor(private val moduleService: ModuleService) {

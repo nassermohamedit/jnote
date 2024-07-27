@@ -21,4 +21,8 @@ class Note {
 
     @get:Column(name = "creation_time", nullable = false)
     var creationTime: LocalDateTime? = null
+
+    @get:ManyToOne(fetch = FetchType.LAZY)
+    @get:JoinColumn(name = "question_id")
+    var question: Question? = null;
 }

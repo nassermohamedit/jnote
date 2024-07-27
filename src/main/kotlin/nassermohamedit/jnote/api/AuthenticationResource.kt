@@ -11,7 +11,7 @@ import nassermohamedit.jnote.service.AuthService
 import org.jboss.resteasy.reactive.RestResponse
 import nassermohamedit.jnote.dto.Token;
 
-@Path("/auth")
+@Path("/api/auth")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 class AuthenticationResource @Inject constructor(

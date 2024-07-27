@@ -25,7 +25,7 @@ class NoteService @Inject constructor(private val noteRepository: NoteRepository
         if (note.unit!!.module!!.owner!!.id!! != authId) {
             throw ForbiddenException()
         }
-        return NoteDto(note.id!!, note.content!!, note.unit!!.id!!, note.creationTime!!)
+        return NoteDto(note.id!!, note.content!!, note.unit!!.id!!, note.question!!.id, note.creationTime!!)
     }
 
     @Transactional
@@ -37,7 +37,8 @@ class NoteService @Inject constructor(private val noteRepository: NoteRepository
         noteRepository.deleteById(id)
     }
 
-    fun updateNote(id: Long, update: Note): NoteDto {
+    @Transactional
+    fun updateNote(id: Long, update: NoteDto): NoteDto {
         val note = noteRepository.findById(id) ?: throw NotFoundException()
         if (note.unit!!.module!!.owner!!.id!! != authId) {
             throw ForbiddenException()
@@ -48,6 +49,6 @@ class NoteService @Inject constructor(private val noteRepository: NoteRepository
         } catch (e: PersistenceException) {
             throw DatabaseError()
         }
-        return NoteDto(note.id!!, note.content!!, note.unit!!.id!!, note.creationTime!!)
+        return NoteDto(note.id!!, note.content!!, note.unit!!.id!!, note.question!!.id, note.creationTime!!)
     }
 }

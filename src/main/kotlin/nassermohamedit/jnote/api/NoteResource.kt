@@ -28,7 +28,7 @@ class NoteResource @Inject constructor(
     @PUT
     @Path("/{id}")
     @RolesAllowed("user")
-    fun updateNote(@PathParam("id") id: Long, note: Note): RestResponse<NoteDto> {
+    fun updateNote(@PathParam("id") id: Long, note: NoteDto): RestResponse<NoteDto> {
         val updated = noteService.updateNote(id, note)
         return RestResponse.ok(updated)
     }

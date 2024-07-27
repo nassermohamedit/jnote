@@ -13,12 +13,13 @@ import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.Context
 import jakarta.ws.rs.core.MediaType
 import nassermohamedit.jnote.dto.NoteDto
+import nassermohamedit.jnote.dto.QuestionDto
 import nassermohamedit.jnote.dto.UnitDto
 import nassermohamedit.jnote.service.UnitService
 import org.eclipse.microprofile.jwt.JsonWebToken
 import org.jboss.resteasy.reactive.RestResponse
 
-@Path("/units")
+@Path("/api/units")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 class UnitResource @Inject constructor(private val unitService: UnitService) {
@@ -79,4 +80,22 @@ class UnitResource @Inject constructor(private val unitService: UnitService) {
         return RestResponse.ok(notes)
     }
 
+    @POST
+    @Path("/{id}/questions")
+    @RolesAllowed("user")
+    fun addQuestion(@PathParam("id") id: Long, question: QuestionDto, @Context jwt: JsonWebToken): RestResponse<QuestionDto> {
+        val authId = jwt.getClaim<String>("id").toLong()
+        val created = unitService.addQuestion(id, question, authId)
+        return RestResponse.ok(created)
+    }
+
+
+    @GET
+    @Path("/{id}/questions")
+    @RolesAllowed("user")
+    fun getAZlQuestions(@PathParam("id") id: Long, @Context jwt: JsonWebToken): RestResponse<List<QuestionDto>> {
+        val authId = jwt.getClaim<String>("id").toLong()
+        val questions = unitService.findAllQuestions(id, authId)
+        return RestResponse.ok(questions)
+    }
 }

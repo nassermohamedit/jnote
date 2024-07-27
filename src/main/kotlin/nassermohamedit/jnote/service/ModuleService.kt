@@ -7,10 +7,8 @@ import jakarta.transaction.Transactional
 import nassermohamedit.jnote.dto.ModuleDto
 import nassermohamedit.jnote.dto.NoteDto
 import nassermohamedit.jnote.dto.UnitDto
-import nassermohamedit.jnote.entity.Module
-import nassermohamedit.jnote.entity.Note
+import nassermohamedit.jnote.entity.*
 import nassermohamedit.jnote.entity.Unit
-import nassermohamedit.jnote.entity.User
 import nassermohamedit.jnote.exception.ForbiddenException
 import nassermohamedit.jnote.exception.NotFoundException
 import nassermohamedit.jnote.exception.DatabaseError
@@ -97,6 +95,10 @@ class ModuleService @Inject constructor(
         val defaultUnit = unitRepository.findDefault(id)
         val note = Note()
         note.content = noteData.content
+        if (noteData.questionId != null) {
+            note.question = Question()
+            note.question!!.id = noteData.questionId
+        }
         note.creationTime = LocalDateTime.now()
         note.unit = defaultUnit
         try {
@@ -105,6 +107,7 @@ class ModuleService @Inject constructor(
                 note.id,
                 note.content,
                 note.unit!!.id,
+                note.question!!.id,
                 note.creationTime
             )
         } catch (e: PersistenceException) {
@@ -122,6 +125,7 @@ class ModuleService @Inject constructor(
             note.id!!,
             note.content!!,
             note.unit!!.id!!,
+            note.question!!.id,
             note.creationTime!!)
         }
     }
