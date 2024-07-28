@@ -1,5 +1,6 @@
 package nassermohamedit.jnote.entity
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -8,6 +9,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
 import java.time.LocalDateTime
@@ -38,4 +40,10 @@ class Unit {
 
     @Column(nullable = false)
     var self: Boolean? = false;
+
+    @get:OneToMany(cascade = [CascadeType.REMOVE], mappedBy = "unit")
+    lateinit var notes: List<Note>
+
+    @get:OneToMany(cascade = [CascadeType.REMOVE], mappedBy = "unit")
+    lateinit var questions: List<Question>
 }

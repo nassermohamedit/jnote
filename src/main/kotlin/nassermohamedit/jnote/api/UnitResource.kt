@@ -53,13 +53,13 @@ class UnitResource @Inject constructor(private val unitService: UnitService) {
     @RolesAllowed("user")
     fun deleteUnit(@PathParam("id") id: Long, @Context jwt: JsonWebToken): RestResponse<Void> {
         val authId = jwt.getClaim<String>("id").toLong()
-
         try {
             unitService.deleteById(id, authId)
         } catch (ignored: Exception) {
             // DELETE is Idempotent
         }
         return RestResponse.noContent()
+
     }
 
     @POST

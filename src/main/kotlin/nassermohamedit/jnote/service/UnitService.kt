@@ -45,6 +45,8 @@ class UnitService @Inject constructor(
         }
     }
 
+
+    @Transactional
     fun deleteById(id: Long, authId: Long) {
         val unit = unitRepository.findById(id)
         checkOwnership(unit, authId)
