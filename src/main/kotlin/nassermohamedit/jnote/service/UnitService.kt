@@ -75,7 +75,7 @@ class UnitService @Inject constructor(
                 note.id,
                 note.content,
                 unit.id,
-                note.question!!.id,
+                note.question?.id,
                 note.creationTime
             )
         } catch (e: PersistenceException) {
@@ -92,7 +92,7 @@ class UnitService @Inject constructor(
                 note.id,
                 note.content,
                 unit.id,
-                note.question!!.id,
+                note.question?.id,
                 note.creationTime
             )
         }

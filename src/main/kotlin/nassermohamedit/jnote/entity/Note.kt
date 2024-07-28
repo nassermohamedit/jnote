@@ -24,5 +24,5 @@ class Note {
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "question_id")
-    var question: Question? = null;
+    var question: Question? = null
 }

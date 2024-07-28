@@ -107,7 +107,7 @@ class ModuleService @Inject constructor(
                 note.id,
                 note.content,
                 note.unit!!.id,
-                note.question!!.id,
+                note.question?.id,
                 note.creationTime
             )
         } catch (e: PersistenceException) {
@@ -125,7 +125,7 @@ class ModuleService @Inject constructor(
             note.id!!,
             note.content!!,
             note.unit!!.id!!,
-            note.question!!.id,
+            note.question?.id,
             note.creationTime!!)
         }
     }

@@ -6,7 +6,6 @@ import jakarta.inject.Inject
 import jakarta.persistence.PersistenceException
 import jakarta.transaction.Transactional
 import nassermohamedit.jnote.dto.NoteDto
-import nassermohamedit.jnote.entity.Note
 import nassermohamedit.jnote.exception.ForbiddenException
 import nassermohamedit.jnote.exception.NotFoundException
 import nassermohamedit.jnote.exception.DatabaseError
@@ -25,7 +24,7 @@ class NoteService @Inject constructor(private val noteRepository: NoteRepository
         if (note.unit!!.module!!.owner!!.id!! != authId) {
             throw ForbiddenException()
         }
-        return NoteDto(note.id!!, note.content!!, note.unit!!.id!!, note.question!!.id, note.creationTime!!)
+        return NoteDto(note.id!!, note.content!!, note.unit!!.id!!, note.question?.id, note.creationTime!!)
     }
 
     @Transactional
@@ -49,6 +48,6 @@ class NoteService @Inject constructor(private val noteRepository: NoteRepository
         } catch (e: PersistenceException) {
             throw DatabaseError()
         }
-        return NoteDto(note.id!!, note.content!!, note.unit!!.id!!, note.question!!.id, note.creationTime!!)
+        return NoteDto(note.id!!, note.content!!, note.unit!!.id!!, note.question?.id, note.creationTime!!)
     }
 }
